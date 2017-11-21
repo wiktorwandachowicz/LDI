@@ -12,7 +12,7 @@ namespace BlogConsoleTest
     {
         static void Main(string[] args)
         {
-            using (var db = new BloggingContext())
+            using (var repository = new BlogRepository())
             {
                 // Get name for a new Blog 
                 Console.Write("Enter a name for a new Blog: ");
@@ -20,16 +20,13 @@ namespace BlogConsoleTest
 
                 // Create and save new Blog 
                 var blog = new Blog { Name = name };
-                db.Blogs.Add(blog);
-                db.SaveChanges();
+                repository.Add(blog);
 
                 // Display all Blogs from the database 
-                var query = from b in db.Blogs
-                            orderby b.Name
-                            select b;
+                var list = repository.GetAll();
 
                 Console.WriteLine("All blogs in the database:");
-                foreach (var item in query)
+                foreach (var item in list)
                 {
                     Console.WriteLine($"* {item.Name}");
                 }
