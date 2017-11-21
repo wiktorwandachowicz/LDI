@@ -25,5 +25,31 @@ namespace BlogWpfApp
         {
             InitializeComponent();
         }
+
+        public const string SERVICE_URL = "http://localhost:53244/";
+
+        public static BlogWeb GetBlogWebClient(string uri = SERVICE_URL)
+        {
+            BlogWeb client = new BlogWeb(new Uri(uri), new BasicAuthenticationCredentials());
+            return client;
+        }
+
+        private void ButtonDostepne_Click(object sender, RoutedEventArgs e)
+        {
+            BlogWeb client = GetBlogWebClient();
+
+            var list = client.Blogs.GetAllBlogs();
+
+            UpdateBlogs(list);
+        }
+
+        private void UpdateBlogs(IList<Models.Blog> list)
+        {
+            ListBoxBlogi.Items.Clear();
+            foreach (var item in list)
+            {
+                ListBoxBlogi.Items.Add(item);
+            }
+        }
     }
 }
