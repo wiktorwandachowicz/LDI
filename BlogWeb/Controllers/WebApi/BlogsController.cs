@@ -15,7 +15,9 @@ namespace BlogWeb.Controllers.WebApi
         {
             using (var repository = new BlogRepository())
             {
-                return repository.GetAll().ToList();
+                return repository.GetAll()
+                    .OrderBy((b) => b.BlogId)
+                    .ToList();
             }
         }
     }
